@@ -31,7 +31,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-nginx-service
+  name: nginx-service
   namespace: test-deployments
 spec:
   selector:
