@@ -1,5 +1,5 @@
 kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: apods-list
 subjects:
