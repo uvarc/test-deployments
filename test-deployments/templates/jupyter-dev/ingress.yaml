@@ -8,10 +8,13 @@ metadata:
   namespace: test-deployments
 spec:
   rules:
-    - host: nem2p.pods.uvarc.io
-      http:
-        paths:
-          - backend:
-              serviceName: jupyter-dev-service
-              servicePort: 8080
-            path: /
+  - host: jupyter.pods.uvarc.io
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: jupyter-dev-service
+            port:
+              number: 8080
