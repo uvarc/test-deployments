@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  name: jupyter-dev-ingress
+  namespace: test-deployments
+spec:
+  rules:
+    - host: nem2p.pods.uvarc.io
+      http:
+        paths:
+          - backend:
+              serviceName: jupyter-dev-service
+              servicePort: 8080
+            path: /

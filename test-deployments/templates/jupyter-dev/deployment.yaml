@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jupyter-dev-deployment
+  namespace: test-deployments
+  labels:
+    app: jupyter-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jupyter-dev
+  template:
+    metadata:
+      labels:
+        app: jupyter-dev
+        owner: nem2p
+        department: uvarc
+    spec:
+      containers:
+      - name: jupyter-dev-container
+        image: jupyter/scipy-notebook:2023-02-28
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8888
+        env:
+        - name: R_HOME_DIR
+          value: "/usr/lib/R"
+        # Here we inject secrets as ENV variables, from the secrets.yaml file.
+        # envFrom:
+        # - secretRef: 
+        #     name: MYSECRETS
+        resources:
+            memory: "524Mi"
+            cpu: "1000m"
+          limits:
+            memory: "2048Mi"
+            cpu: "2000m"
