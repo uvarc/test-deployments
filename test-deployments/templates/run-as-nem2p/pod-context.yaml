@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nem2p-restricted
+  namespace: test-deployments
+spec:
+  securityContext:
+    runAsUser: 889765
+    runAsGroup: 100
+    fsGroup: 100
+  volumes:
+  - name: nem2p-nfs-volume
+    persistentVolumeClaim:
+      claimName: nem2p-storage-pvc
+  containers:
+  - name: nem2p-ubuntu
+    image: ubuntu:22.04
+    args:
+    - sleep
+    - "1000000"
+    volumeMounts:
+    - name: nem2p-nfs-volume
+      mountPath: /data
+    resources:
+      limits: 
+        cpu: "0.5"
+        memory: 512Mi
+      requests:
+        cpu: "0.5"
+        memory: 512Mi
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+        add:
+          - NET_BIND_SERVICE
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nem2p-nfs-pv
+  labels:
+spec:
+  storageClassName: nem2p-storage-sc
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  mountOptions:
+    - nfsvers=3
+  nfs:
+    server: gpfs-s.hpc.virginia.edu # ip addres of nfs server
+    path: "/gpfs/gpfs0/project/arcs/nem2p"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nem2p-storage-pvc
+  namespace: test-deployments
+spec:
+  storageClassName: nem2p-storage-sc
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi

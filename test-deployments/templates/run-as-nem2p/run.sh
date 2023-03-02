@@ -1,0 +1,1 @@
+/bin/date >> /time.log

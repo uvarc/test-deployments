@@ -26,10 +26,6 @@ spec:
         env:
         - name: R_HOME_DIR
           value: "/usr/lib/R"
-        # Here we inject secrets as ENV variables, from the secrets.yaml file.
-        # envFrom:
-        # - secretRef: 
-        #     name: MYSECRETS
         resources:
             memory: "524Mi"
             cpu: "1000m"
