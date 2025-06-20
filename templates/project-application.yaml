@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "{{ .Values.project_name }}"
+  namespace: argocd
+spec:
+  destination:
+    namespace: "{{ .Values.project_namespace }}"
+    server: https://kubernetes.default.svc
+  project: "{{ .Values.project_name }}"
+    
+  source:
+    helm:
+      version: v3
+      valueFiles:
+#      - values.yaml
+    path:  "{{ .Values.project_path }}"
+    repoURL: "{{ .Values.repoURL }}"
+    targetRevision: HEAD
+
+  syncPolicy:
+    syncOptions:
+    - ApplyOutOfSyncOnly=true
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  managedFields:
+  - apiVersion: argoproj.io/v1alpha1
+    manager: argocd-application-controller
+
+################################### UPDATE NAME ###################################
+  name: test-deployments-bootstrap
+################################### UPDATE NAME ###################################
+
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+
+  source:
+    helm:
+      version: v3
+      valueFiles:
+#      - values.yaml
+
+################################### UPDATE PATH ###################################
+    path: projects/test-deployments
+################################### UPDATE PATH ###################################
+
+    repoURL: git@github.com:uvarc/ssz-projects.git
+    targetRevision: HEAD
+        
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+

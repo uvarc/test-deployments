@@ -1,0 +1,15 @@
+project_name: test-deployments
+project_path: test-deployments
+project_namespace: test-deployments
+repoURL: https://github.com/uvarc/test-deployments.git
+
+#Namespace CPU Quota
+request_cpu: 15
+limits_cpu: 20
+
+#Namespace Memory Quota
+request_memory: 45Gi
+limits_memory: 50Gi
+
+#Namespace Storage Quota
+request_storage: 1Ti
