@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jupyter-dev-deployment
+  namespace: test-deployments
+  labels:
+    app: jupyter-dev
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: jupyter-dev
+  template:
+    metadata:
+      labels:
+        app: jupyter-dev
+        owner: nem2p
+        department: uvarc
+    spec:
+      containers:
+      - name: jupyter-dev-container
+        image: jupyter/scipy-notebook:2023-02-28
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8888
+        env:
+        - name: PASSWORD
+          value: "uva123"
+        resources:
+          requests:
+            memory: "1024Mi"
+            cpu: "1000m"
+          limits:
+            memory: "2048Mi"
+            cpu: "2000m"
